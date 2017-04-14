@@ -35,18 +35,18 @@
           this.renderer.setSize(width, height);
           document.body.appendChild(this.renderer.domElement);
 
-
+          // define room
           var x = this.camera.position.x;
           var y = this.camera.position.z;
           this.addCube(x, y);
 
-          
+          // subscribe to input events
           var self = this;
           document.onkeydown = e => self._handleInput(self, e);
         }
         
         addCube(x, z) {
-          var geometry = new THREE.BoxGeometry(5, 5, 20);
+          var geometry = new THREE.BoxGeometry(10, 3, 10); // width, height, length
           var cube = this._buildShape(geometry, x, z);
           cube.rotation.y += 2;
           this.scene.add(cube);
