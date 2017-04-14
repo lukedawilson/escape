@@ -25,20 +25,6 @@
           scene.add(cube);
 
           this.scene = scene;
-          this._addBricks(2, .3, -depth/2);
-          this._addBricks(0, .8, -depth/2);
-          
-          this._addBricks(1.6, .3, depth/2);
-          this._addBricks(0.2, .8, depth/2);
-          this._addBricks(-2.7, .1, depth/2);
-          
-          this._addBricks2(2.3, .3, -width/2);
-          this._addBricks2(-.2, .8, -width/2);
-          this._addBricks2(-3.6, .1, -width/2);
-          
-          this._addBricks2(0.4, .8, width/2);
-          this._addBricks2(-1.9, .1, width/2);
-
           this.shape = cube;
           this.width = width;
           this.height = height;
@@ -55,6 +41,48 @@
                  deltaX <= this.minX ||
                  deltaY >= this.maxY ||
                  deltaY <= this.minY;
+        }
+
+        _addBrick(x, y, z, rotate) {
+          var brickGeo = new THREE.BoxGeometry(.3, .1, 0);
+          var brick = this._buildShape(brickGeo, x, z, y);
+          if (rotate) {
+            brick.rotation.x += Math.PI/2;
+            brick.rotation.y += Math.PI/2;
+            brick.rotation.z += Math.PI/2;
+          }
+
+          this.scene.add(brick);
+        }
+
+        _buildShape(geometry, x, z, y=0) {
+          var edges = new THREE.EdgesGeometry(geometry);
+          var material = new THREE.LineBasicMaterial({color: this.WIREFRAME_COLOUR});
+          var shape = new THREE.LineSegments(edges, material);
+          shape.position.x = x;
+          shape.position.z = z;
+          shape.position.y = y;
+          return shape;
+        }       
+      }
+
+      class EntranceHall extends Room {
+        constructor(scene, width, depth, height) {
+          super(scene, width, depth, height);
+
+          this._addBricks(2, .3, -depth/2);
+          this._addBricks(0, .8, -depth/2);
+          
+          this._addBricks(1.6, .3, depth/2);
+          this._addBricks(0.2, .8, depth/2);
+          this._addBricks(-2.7, .1, depth/2);
+          
+          this._addBricks2(2.3, .3, -width/2);
+          this._addBricks2(-.2, .8, -width/2);
+          this._addBricks2(-3.6, .1, -width/2);
+          
+          this._addBricks2(0.4, .8, width/2);
+          this._addBricks2(-1.9, .1, width/2);
         }
 
         _addBricks(xOffset, yOffset, zOffset) {
@@ -84,28 +112,6 @@
           this._addBrick(zOffset, -.2 + yOffset, .3 + xOffset, true);
           this._addBrick(zOffset, -.2 + yOffset, .6 + xOffset, true);
         }
-
-        _addBrick(x, y, z, rotate) {
-          var brickGeo = new THREE.BoxGeometry(.3, .1, 0);
-          var brick = this._buildShape(brickGeo, x, z, y);
-          if (rotate) {
-            brick.rotation.x += Math.PI/2;
-            brick.rotation.y += Math.PI/2;
-            brick.rotation.z += Math.PI/2;
-          }
-
-          this.scene.add(brick);
-        }
-
-        _buildShape(geometry, x, z, y=0) {
-          var edges = new THREE.EdgesGeometry(geometry);
-          var material = new THREE.LineBasicMaterial({color: this.WIREFRAME_COLOUR});
-          var shape = new THREE.LineSegments(edges, material);
-          shape.position.x = x;
-          shape.position.z = z;
-          shape.position.y = y;
-          return shape;
-        }       
       }
 
       class Game {
@@ -128,7 +134,7 @@
           // define room
           var x = this.camera.position.x;
           var y = this.camera.position.y;
-          this.room = new Room(this.scene, 10, 10, 3);
+          this.room = new EntranceHall(this.scene, 10, 10, 3);
 
           // subscribe to input events
           var self = this;
