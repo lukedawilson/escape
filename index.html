@@ -25,19 +25,22 @@
           scene.add(cube);
 
           this.scene = scene;
+          this._addBricks(2, .3, -depth/2);
+          this._addBricks(0, .8, -depth/2);
+          this._addBricks(-3, .1, -depth/2);
+          
+          this._addBricks(2, .3, depth/2);
+          this._addBricks(0, .8, depth/2);
+          this._addBricks(-3, .1, depth/2);
+          
+          this._addBricks2(2, .3, -width/2);
+          this._addBricks2(0, .8, -width/2);
+          this._addBricks2(-3, .1, -width/2);
+          
+          this._addBricks2(2, .3, width/2);
+          this._addBricks2(0, .8, width/2);
+          this._addBricks2(-3, .1, width/2);
 
-          this._addBrick(0, 0, -depth/2);
-          this._addBrick(.6, -depth/2);
-          this._addBrick(.9, -depth/2);
-          
-          this._addBrick(.15, -.1, -depth/2);
-          this._addBrick(.45, -.1, -depth/2);
-          this._addBrick(.75, -.1, -depth/2);
-          
-          this._addBrick(0, -.2, -depth/2);
-          this._addBrick(.3, -.2, -depth/2);
-          this._addBrick(.6, -.2, -depth/2);
-          
           this.shape = cube;
           this.width = width;
           this.height = height;
@@ -56,9 +59,43 @@
                  deltaY <= this.minY;
         }
 
-        _addBrick(x, y, z) {
+        _addBricks(xOffset, yOffset, zOffset) {
+          this._addBrick(0 + xOffset, 0 + yOffset, zOffset, false);
+          this._addBrick(.6 + xOffset, 0 + yOffset, zOffset, false);
+          this._addBrick(.9 + xOffset, 0 + yOffset, zOffset, false);
+          
+          this._addBrick(.15 + xOffset, -.1 + yOffset, zOffset, false);
+          this._addBrick(.45 + xOffset, -.1 + yOffset, zOffset, false);
+          this._addBrick(.75 + xOffset, -.1 + yOffset, zOffset, false);
+          
+          this._addBrick(0 + xOffset, -.2 + yOffset, zOffset, false);
+          this._addBrick(.3 + xOffset, -.2 + yOffset, zOffset, false);
+          this._addBrick(.6 + xOffset, -.2 + yOffset, zOffset, false);
+        }
+
+        _addBricks2(xOffset, yOffset, zOffset) {
+          this._addBrick(zOffset, 0 + yOffset, 0 + xOffset, true);
+          this._addBrick(zOffset, 0 + yOffset, .6 + xOffset, true);
+          this._addBrick(zOffset, 0 + yOffset, .9 + xOffset, true);
+          
+          this._addBrick(zOffset, -.1 + yOffset, .15 + xOffset, true);
+          this._addBrick(zOffset, -.1 + yOffset, .45 + xOffset, true);
+          this._addBrick(zOffset, -.1 + yOffset, .75 + xOffset, true);
+          
+          this._addBrick(zOffset, -.2 + yOffset, 0 + xOffset, true);
+          this._addBrick(zOffset, -.2 + yOffset, .3 + xOffset, true);
+          this._addBrick(zOffset, -.2 + yOffset, .6 + xOffset, true);
+        }
+
+        _addBrick(x, y, z, rotate) {
           var brickGeo = new THREE.BoxGeometry(.3, .1, 0);
           var brick = this._buildShape(brickGeo, x, z, y);
+          if (rotate) {
+            brick.rotation.x += Math.PI/2;
+            brick.rotation.y += Math.PI/2;
+            brick.rotation.z += Math.PI/2;
+          }
+
           this.scene.add(brick);
         }
 
