@@ -56,13 +56,45 @@
         }
 
         _addDoor(x, z) {
-          var outerGeo = new THREE.BoxGeometry(1.5, 2, 0);
-          var outer = this._buildShape(outerGeo, x, z, -.5);
+          // outer
+          var curve = new THREE.EllipseCurve(0, 0 /*ax, ay*/, .75, .75 /* xRadius, yRadius */, 0, Math.PI /* aStartAngle, aEndAngle */, false);
+          var points = curve.getSpacedPoints( 20 );
+          var path = new THREE.Path();
+          var geometry = path.createGeometry( points );
+          var material = new THREE.LineBasicMaterial( { color : this.WIREFRAME_COLOUR } );
+          var outer = new THREE.Line( geometry, material );
+          outer.position.z = z;
           this.scene.add(outer);
 
-          var innerGeo = new THREE.BoxGeometry(1.3, 1.9, 0);
-          var inner = this._buildShape(innerGeo, x, z, -.55);
+          var lg1 = new THREE.Geometry();
+          lg1.vertices.push(new THREE.Vector3(.75, -1.5, z), new THREE.Vector3(.75, 0, z));
+          var l1 = new THREE.Line(lg1, material);
+          this.scene.add(l1);
+
+          var lg2 = new THREE.Geometry();
+          lg2.vertices.push(new THREE.Vector3(-.75, -1.5, z), new THREE.Vector3(-.75, 0, z));
+          var l2 = new THREE.Line(lg2, material);
+          this.scene.add(l2);
+
+          // inner
+          curve = new THREE.EllipseCurve(0, 0 /*ax, ay*/, .65, .65 /* xRadius, yRadius */, 0, Math.PI /* aStartAngle, aEndAngle */, false);
+          points = curve.getSpacedPoints( 20 );
+          path = new THREE.Path();
+          geometry = path.createGeometry( points );
+          material = new THREE.LineBasicMaterial( { color : this.WIREFRAME_COLOUR } );
+          var inner = new THREE.Line( geometry, material );
+          inner.position.z = z;
           this.scene.add(inner);
+
+          lg1 = new THREE.Geometry();
+          lg1.vertices.push(new THREE.Vector3(.65, -1.5, z), new THREE.Vector3(.65, 0, z));
+          l1 = new THREE.Line(lg1, material);
+          this.scene.add(l1);
+
+          lg2 = new THREE.Geometry();
+          lg2.vertices.push(new THREE.Vector3(-.65, -1.5, z), new THREE.Vector3(-.65, 0, z));
+          l2 = new THREE.Line(lg2, material);
+          this.scene.add(l2);
         }
 
         _buildShape(geometry, x, z, y=0) {
@@ -84,7 +116,7 @@
           this._addBricks(0, .8, -depth/2);
           
           this._addBricks(1.6, .3, depth/2);
-          this._addBricks(0.2, .8, depth/2);
+          //this._addBricks(0.2, .8, depth/2);
           this._addBricks(-2.7, .1, depth/2);
           
           this._addBricks2(2.3, .3, -width/2);
