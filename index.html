@@ -17,13 +17,27 @@
     <script src="js/three.js"></script>
     <script>
       class Room {
-        constructor(width, depth, height) {
+        constructor(scene, width, depth, height) {
           this.WIREFRAME_COLOUR = 0x808080;
 
           var geometry = new THREE.BoxGeometry(width, height, depth);
           var cube = this._buildShape(geometry, 0, 0);
-          cube.rotation.y += 2;
+          scene.add(cube);
 
+          this.scene = scene;
+
+          this._addBrick(0, 0, -depth/2);
+          this._addBrick(.6, -depth/2);
+          this._addBrick(.9, -depth/2);
+          
+          this._addBrick(.15, -.1, -depth/2);
+          this._addBrick(.45, -.1, -depth/2);
+          this._addBrick(.75, -.1, -depth/2);
+          
+          this._addBrick(0, -.2, -depth/2);
+          this._addBrick(.3, -.2, -depth/2);
+          this._addBrick(.6, -.2, -depth/2);
+          
           this.shape = cube;
           this.width = width;
           this.height = height;
@@ -42,12 +56,19 @@
                  deltaY <= this.minY;
         }
 
-        _buildShape(geometry, x, z) {
+        _addBrick(x, y, z) {
+          var brickGeo = new THREE.BoxGeometry(.3, .1, 0);
+          var brick = this._buildShape(brickGeo, x, z, y);
+          this.scene.add(brick);
+        }
+
+        _buildShape(geometry, x, z, y=0) {
           var edges = new THREE.EdgesGeometry(geometry);
           var material = new THREE.LineBasicMaterial({color: this.WIREFRAME_COLOUR});
           var shape = new THREE.LineSegments(edges, material);
           shape.position.x = x;
           shape.position.z = z;
+          shape.position.y = y;
           return shape;
         }       
       }
@@ -72,8 +93,7 @@
           // define room
           var x = this.camera.position.x;
           var y = this.camera.position.y;
-          this.room = new Room(10, 10, 3);
-          this.scene.add(this.room.shape);
+          this.room = new Room(this.scene, 10, 10, 3);
 
           // subscribe to input events
           var self = this;
