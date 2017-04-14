@@ -16,10 +16,150 @@
   <body>
     <script src="js/three.js"></script>
     <script>
+      class Room {
+        constructor(scene, width, depth, height) {
+          this.WIREFRAME_COLOUR = 0x808080;
+
+          var geometry = new THREE.BoxGeometry(width, height, depth);
+          var cube = this._buildShape(geometry, 0, 0);
+          scene.add(cube);
+
+          this.scene = scene;
+          this.shape = cube;
+          this.width = width;
+          this.height = height;
+          this.depth = depth;
+
+          this.maxX = width/2 - 1;
+          this.minX = -width/2 + 1;
+          this.maxY = depth/2 - 1;
+          this.minY = -depth/2 + 1;
+        }
+
+        hitsWall(deltaX, deltaY) {
+          return deltaX >= this.maxX ||
+                 deltaX <= this.minX ||
+                 deltaY >= this.maxY ||
+                 deltaY <= this.minY;
+        }
+
+        _addBrick(x, y, z, rotate) {
+          var geometry = new THREE.BoxGeometry(.3, .1, 0);
+          var brick = this._buildShape(geometry, x, z, y);
+          if (rotate) {
+            brick.rotation.x += Math.PI/2;
+            brick.rotation.y += Math.PI/2;
+            brick.rotation.z += Math.PI/2;
+          }
+
+          this.scene.add(brick);
+        }
+
+        _addDoor(x, z) {
+          // outer
+          var curve = new THREE.EllipseCurve(0, 0 /*ax, ay*/, .75, .75 /* xRadius, yRadius */, 0, Math.PI /* aStartAngle, aEndAngle */, false);
+          var points = curve.getSpacedPoints( 20 );
+          var path = new THREE.Path();
+          var geometry = path.createGeometry( points );
+          var material = new THREE.LineBasicMaterial( { color : this.WIREFRAME_COLOUR } );
+          var outer = new THREE.Line( geometry, material );
+          outer.position.z = z;
+          this.scene.add(outer);
+
+          var lg1 = new THREE.Geometry();
+          lg1.vertices.push(new THREE.Vector3(.75, -1.5, z), new THREE.Vector3(.75, 0, z));
+          var l1 = new THREE.Line(lg1, material);
+          this.scene.add(l1);
+
+          var lg2 = new THREE.Geometry();
+          lg2.vertices.push(new THREE.Vector3(-.75, -1.5, z), new THREE.Vector3(-.75, 0, z));
+          var l2 = new THREE.Line(lg2, material);
+          this.scene.add(l2);
+
+          // inner
+          curve = new THREE.EllipseCurve(0, 0 /*ax, ay*/, .65, .65 /* xRadius, yRadius */, 0, Math.PI /* aStartAngle, aEndAngle */, false);
+          points = curve.getSpacedPoints( 20 );
+          path = new THREE.Path();
+          geometry = path.createGeometry( points );
+          material = new THREE.LineBasicMaterial( { color : this.WIREFRAME_COLOUR } );
+          var inner = new THREE.Line( geometry, material );
+          inner.position.z = z;
+          this.scene.add(inner);
+
+          lg1 = new THREE.Geometry();
+          lg1.vertices.push(new THREE.Vector3(.65, -1.5, z), new THREE.Vector3(.65, 0, z));
+          l1 = new THREE.Line(lg1, material);
+          this.scene.add(l1);
+
+          lg2 = new THREE.Geometry();
+          lg2.vertices.push(new THREE.Vector3(-.65, -1.5, z), new THREE.Vector3(-.65, 0, z));
+          l2 = new THREE.Line(lg2, material);
+          this.scene.add(l2);
+        }
+
+        _buildShape(geometry, x, z, y=0) {
+          var edges = new THREE.EdgesGeometry(geometry);
+          var material = new THREE.LineBasicMaterial({color: this.WIREFRAME_COLOUR});
+          var shape = new THREE.LineSegments(edges, material);
+          shape.position.x = x;
+          shape.position.z = z;
+          shape.position.y = y;
+          return shape;
+        }       
+      }
+
+      class EntranceHall extends Room {
+        constructor(scene, width, depth, height) {
+          super(scene, width, depth, height);
+
+          this._addBricks(2, .3, -depth/2);
+          this._addBricks(0, .8, -depth/2);
+          
+          this._addBricks(1.6, .3, depth/2);
+          //this._addBricks(0.2, .8, depth/2);
+          this._addBricks(-2.7, .1, depth/2);
+          
+          this._addBricks2(2.3, .3, -width/2);
+          this._addBricks2(-.2, .8, -width/2);
+          this._addBricks2(-3.6, .1, -width/2);
+          
+          this._addBricks2(0.4, .8, width/2);
+          this._addBricks2(-1.9, .1, width/2);
+
+          this._addDoor(0, depth/2);
+        }
+
+        _addBricks(xOffset, yOffset, zOffset) {
+          this._addBrick(0 + xOffset, 0 + yOffset, zOffset, false);
+          this._addBrick(.6 + xOffset, 0 + yOffset, zOffset, false);
+          this._addBrick(.9 + xOffset, 0 + yOffset, zOffset, false);
+          
+          this._addBrick(.15 + xOffset, -.1 + yOffset, zOffset, false);
+          this._addBrick(.45 + xOffset, -.1 + yOffset, zOffset, false);
+          this._addBrick(.75 + xOffset, -.1 + yOffset, zOffset, false);
+          
+          this._addBrick(0 + xOffset, -.2 + yOffset, zOffset, false);
+          this._addBrick(.3 + xOffset, -.2 + yOffset, zOffset, false);
+          this._addBrick(.6 + xOffset, -.2 + yOffset, zOffset, false);
+        }
+
+        _addBricks2(xOffset, yOffset, zOffset) {
+          this._addBrick(zOffset, 0 + yOffset, 0 + xOffset, true);
+          this._addBrick(zOffset, 0 + yOffset, .6 + xOffset, true);
+          this._addBrick(zOffset, 0 + yOffset, .9 + xOffset, true);
+          
+          this._addBrick(zOffset, -.1 + yOffset, .15 + xOffset, true);
+          this._addBrick(zOffset, -.1 + yOffset, .45 + xOffset, true);
+          this._addBrick(zOffset, -.1 + yOffset, .75 + xOffset, true);
+          
+          this._addBrick(zOffset, -.2 + yOffset, 0 + xOffset, true);
+          this._addBrick(zOffset, -.2 + yOffset, .3 + xOffset, true);
+          this._addBrick(zOffset, -.2 + yOffset, .6 + xOffset, true);
+        }
+      }
+
       class Game {
         constructor(width, height) {
-          this.LIGHT_GREEN = 0x808080;
-          
           this.counter = 1;
         
           this.width = width;
@@ -28,7 +168,7 @@
           this.scene = new THREE.Scene();
           
           this.camera = new THREE.PerspectiveCamera(75, width/height, 0.1, 1000);
-          this.camera.position.z = -5;
+          this.camera.position.y = -.5;
           this.camera.rotation.y += Math.PI;
 
           this.renderer = new THREE.WebGLRenderer();
@@ -37,22 +177,14 @@
 
           // define room
           var x = this.camera.position.x;
-          var y = this.camera.position.z;
-          this.addCube(x, y);
+          var y = this.camera.position.y;
+          this.room = new EntranceHall(this.scene, 10, 10, 3);
 
           // subscribe to input events
           var self = this;
           document.onkeydown = e => self._handleInput(self, e);
         }
-        
-        addCube(x, z) {
-          var geometry = new THREE.BoxGeometry(10, 3, 10); // width, height, depth
-          var cube = this._buildShape(geometry, x, z);
-          cube.rotation.y += 2;
-          this.scene.add(cube);
-          return cube;
-        }
-        
+        /*
         addPyramid(x, z) {
           var geometry = new THREE.Geometry();
           geometry.vertices.push(
@@ -74,7 +206,8 @@
           this.scene.add(pyramid);
           return pyramid;
         }
-        
+        */
+
         gameLoop(refreshRateMs = 50) {
           setInterval(() => {
             this._render();
@@ -84,15 +217,6 @@
         _render() {
           //requestAnimationFrame(sender._render(sender));
           this.renderer.render(this.scene, this.camera);
-        }
-        
-        _buildShape(geometry, x, z) {
-          var edges = new THREE.EdgesGeometry(geometry);
-          var material = new THREE.LineBasicMaterial({color: this.LIGHT_GREEN});
-          var shape = new THREE.LineSegments(edges, material);
-          shape.position.x = x;
-          shape.position.z = z;
-          return shape;
         }
         
         _getPosVector(d, theta) {
@@ -108,20 +232,18 @@
 
           switch(e.keyCode) {
             case 38: // up
-              if (sender.camera.position.x + pos.x >= 5 - 1 ||
-                  sender.camera.position.x + pos.x <= -5 +1 ||
-                  sender.camera.position.z + pos.y >= 0 - 1 ||
-                  sender.camera.position.z + pos.y <= -10 + 1)
+              var deltaX = sender.camera.position.x + pos.x;
+              var deltaY = sender.camera.position.z + pos.y;
+              if (sender.room.hitsWall(deltaX, deltaY))
                 return;
 
               sender.camera.position.x += pos.x;
               sender.camera.position.z += pos.y;
               break;
             case 40: // down
-              if (sender.camera.position.x - pos.x >= 5 - 1 ||
-                  sender.camera.position.x - pos.x <= -5 + 1 ||
-                  sender.camera.position.z - pos.y >= 0 - 1 ||
-                  sender.camera.position.z - pos.y <= -10 + 1)
+              var deltaX = sender.camera.position.x - pos.x;
+              var deltaY = sender.camera.position.z - pos.y;
+              if (sender.room.hitsWall(deltaX, deltaY))
                 return;
 
               sender.camera.position.x -= pos.x;
