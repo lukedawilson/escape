@@ -46,7 +46,7 @@
         }
         
         addCube(x, z) {
-          var geometry = new THREE.BoxGeometry(10, 3, 10); // width, height, length
+          var geometry = new THREE.BoxGeometry(10, 3, 10); // width, height, depth
           var cube = this._buildShape(geometry, x, z);
           cube.rotation.y += 2;
           this.scene.add(cube);
@@ -108,10 +108,22 @@
 
           switch(e.keyCode) {
             case 38: // up
+              if (sender.camera.position.x + pos.x >= 5 - 1 ||
+                  sender.camera.position.x + pos.x <= -5 +1 ||
+                  sender.camera.position.z + pos.y >= 0 - 1 ||
+                  sender.camera.position.z + pos.y <= -10 + 1)
+                return;
+
               sender.camera.position.x += pos.x;
               sender.camera.position.z += pos.y;
               break;
             case 40: // down
+              if (sender.camera.position.x - pos.x >= 5 - 1 ||
+                  sender.camera.position.x - pos.x <= -5 + 1 ||
+                  sender.camera.position.z - pos.y >= 0 - 1 ||
+                  sender.camera.position.z - pos.y <= -10 + 1)
+                return;
+
               sender.camera.position.x -= pos.x;
               sender.camera.position.z -= pos.y;
               break;
