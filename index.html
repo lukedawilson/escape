@@ -16,10 +16,44 @@
   <body>
     <script src="js/three.js"></script>
     <script>
+      class Room {
+        constructor(width, depth, height) {
+          this.WIREFRAME_COLOUR = 0x808080;
+
+          var geometry = new THREE.BoxGeometry(width, height, depth);
+          var cube = this._buildShape(geometry, 0, 0);
+          cube.rotation.y += 2;
+
+          this.shape = cube;
+          this.width = width;
+          this.height = height;
+          this.depth = depth;
+
+          this.maxX = width/2 - 1;
+          this.minX = -width/2 + 1;
+          this.maxY = depth/2 - 1;
+          this.minY = -depth/2 + 1;
+        }
+
+        hitsWall(deltaX, deltaY) {
+          return deltaX >= this.maxX ||
+                 deltaX <= this.minX ||
+                 deltaY >= this.maxY ||
+                 deltaY <= this.minY;
+        }
+
+        _buildShape(geometry, x, z) {
+          var edges = new THREE.EdgesGeometry(geometry);
+          var material = new THREE.LineBasicMaterial({color: this.WIREFRAME_COLOUR});
+          var shape = new THREE.LineSegments(edges, material);
+          shape.position.x = x;
+          shape.position.z = z;
+          return shape;
+        }       
+      }
+
       class Game {
         constructor(width, height) {
-          this.LIGHT_GREEN = 0x808080;
-          
           this.counter = 1;
         
           this.width = width;
@@ -28,7 +62,7 @@
           this.scene = new THREE.Scene();
           
           this.camera = new THREE.PerspectiveCamera(75, width/height, 0.1, 1000);
-          this.camera.position.z = -5;
+          this.camera.position.y = -.5;
           this.camera.rotation.y += Math.PI;
 
           this.renderer = new THREE.WebGLRenderer();
@@ -37,22 +71,15 @@
 
           // define room
           var x = this.camera.position.x;
-          var y = this.camera.position.z;
-          this.addCube(x, y);
+          var y = this.camera.position.y;
+          this.room = new Room(10, 10, 3);
+          this.scene.add(this.room.shape);
 
           // subscribe to input events
           var self = this;
           document.onkeydown = e => self._handleInput(self, e);
         }
-        
-        addCube(x, z) {
-          var geometry = new THREE.BoxGeometry(10, 3, 10); // width, height, depth
-          var cube = this._buildShape(geometry, x, z);
-          cube.rotation.y += 2;
-          this.scene.add(cube);
-          return cube;
-        }
-        
+        /*
         addPyramid(x, z) {
           var geometry = new THREE.Geometry();
           geometry.vertices.push(
@@ -74,7 +101,8 @@
           this.scene.add(pyramid);
           return pyramid;
         }
-        
+        */
+
         gameLoop(refreshRateMs = 50) {
           setInterval(() => {
             this._render();
@@ -84,15 +112,6 @@
         _render() {
           //requestAnimationFrame(sender._render(sender));
           this.renderer.render(this.scene, this.camera);
-        }
-        
-        _buildShape(geometry, x, z) {
-          var edges = new THREE.EdgesGeometry(geometry);
-          var material = new THREE.LineBasicMaterial({color: this.LIGHT_GREEN});
-          var shape = new THREE.LineSegments(edges, material);
-          shape.position.x = x;
-          shape.position.z = z;
-          return shape;
         }
         
         _getPosVector(d, theta) {
@@ -108,20 +127,18 @@
 
           switch(e.keyCode) {
             case 38: // up
-              if (sender.camera.position.x + pos.x >= 5 - 1 ||
-                  sender.camera.position.x + pos.x <= -5 +1 ||
-                  sender.camera.position.z + pos.y >= 0 - 1 ||
-                  sender.camera.position.z + pos.y <= -10 + 1)
+              var deltaX = sender.camera.position.x + pos.x;
+              var deltaY = sender.camera.position.z + pos.y;
+              if (sender.room.hitsWall(deltaX, deltaY))
                 return;
 
               sender.camera.position.x += pos.x;
               sender.camera.position.z += pos.y;
               break;
             case 40: // down
-              if (sender.camera.position.x - pos.x >= 5 - 1 ||
-                  sender.camera.position.x - pos.x <= -5 + 1 ||
-                  sender.camera.position.z - pos.y >= 0 - 1 ||
-                  sender.camera.position.z - pos.y <= -10 + 1)
+              var deltaX = sender.camera.position.x - pos.x;
+              var deltaY = sender.camera.position.z - pos.y;
+              if (sender.room.hitsWall(deltaX, deltaY))
                 return;
 
               sender.camera.position.x -= pos.x;
