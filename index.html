@@ -30,17 +30,31 @@
           this.height = height;
           this.depth = depth;
 
-          this.maxX = width/2 - 1;
-          this.minX = -width/2 + 1;
-          this.maxY = depth/2 - 1;
-          this.minY = -depth/2 + 1;
+          this.maxX = width/2;
+          this.minX = -width/2;
+          this.maxY = depth/2;
+          this.minY = -depth/2;
+
+          this.doors = [];
         }
 
         hitsWall(deltaX, deltaY) {
-          return deltaX >= this.maxX ||
-                 deltaX <= this.minX ||
-                 deltaY >= this.maxY ||
-                 deltaY <= this.minY;
+          if (this.doors.includes(this.maxY) && deltaY >= this.maxY - 1 && deltaX >= -.65 && deltaX <= .65)
+            return false;
+
+          if (this.doors.includes(this.minY) && deltaY <= this.minY + 1 && deltaX >= -.65 && deltaX <= .65)
+            return false;
+
+          if (this.doors.includes(this.maxX) && deltaX >= this.maxX - 1 && deltaY >= -.65 && deltaY <= .65)
+            return false;
+
+          if (this.doors.includes(this.minX) && deltaX <= this.minX + 1 && deltaY >= -.65 && deltaY <= .65)
+            return false;
+
+          return deltaX >= this.maxX - 1 ||
+                 deltaX <= this.minX + 1 ||
+                 deltaY >= this.maxY - 1||
+                 deltaY <= this.minY + 1;
         }
 
         _addBrick(x, y, z, rotate) {
@@ -95,6 +109,8 @@
           lg2.vertices.push(new THREE.Vector3(-.65, -1.5, z), new THREE.Vector3(-.65, 0, z));
           l2 = new THREE.Line(lg2, material);
           this.scene.add(l2);
+
+          this.doors.push(z);
         }
 
         _buildShape(geometry, x, z, y=0) {
@@ -112,21 +128,21 @@
         constructor(scene, width, depth, height) {
           super(scene, width, depth, height);
 
-          this._addBricks(2, .3, -depth/2);
-          this._addBricks(0, .8, -depth/2);
+          this._addBricks(2, .3, this.minY);
+          this._addBricks(0, .8, this.minY);
           
-          this._addBricks(1.6, .3, depth/2);
-          //this._addBricks(0.2, .8, depth/2);
-          this._addBricks(-2.7, .1, depth/2);
+          this._addBricks(1.6, .3, this.maxY);
+          //this._addBricks(0.2, .8, this.maxY);
+          this._addBricks(-2.7, .1, this.maxY);
           
-          this._addBricks2(2.3, .3, -width/2);
-          this._addBricks2(-.2, .8, -width/2);
-          this._addBricks2(-3.6, .1, -width/2);
+          this._addBricks2(2.3, .3, this.minX);
+          this._addBricks2(-.2, .8, this.minX);
+          this._addBricks2(-3.6, .1, this.minX);
           
-          this._addBricks2(0.4, .8, width/2);
-          this._addBricks2(-1.9, .1, width/2);
+          this._addBricks2(0.4, .8, this.maxX);
+          this._addBricks2(-1.9, .1, this.maxX);
 
-          this._addDoor(0, depth/2);
+          this._addDoor(0, this.maxY);
         }
 
         _addBricks(xOffset, yOffset, zOffset) {
