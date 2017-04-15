@@ -40,6 +40,10 @@ class Room {
            deltaY <= this.minY + 1;
   }
 
+  inRoom(x, y) {
+    return x >= this.minX && x <= this.maxX && y >= this.minY && y <= this.maxY;
+  }
+
   _addBrick(x, y, z) {
     var geometry = new THREE.BoxGeometry(.3, .1, 0);
     var brick = this._buildShape(geometry, x, z, y);

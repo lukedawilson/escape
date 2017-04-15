@@ -16,9 +16,13 @@ class Game {
     document.body.appendChild(this.renderer.domElement);
 
     // define room
-    this.camera.position.x = 40;
-    this.camera.position.z = 30;
-    this.room = new EntranceHall(this.scene, 40, 30, 10, 10, 3);
+    this.camera.position.x = 0;
+    this.camera.position.z = 0;
+
+    var entranceHall = new EntranceHall(this.scene, 0, 0, 10, 10, 3);
+    var diningRoom = new EntranceHall(this.scene, 0, 10, 10, 10, 3);
+    this.rooms = [entranceHall, diningRoom];
+    this.room = entranceHall;
 
     // subscribe to input events
     var self = this;
@@ -50,8 +54,17 @@ class Game {
       case 38: // up
         var deltaX = sender.camera.position.x + pos.x;
         var deltaY = sender.camera.position.z + pos.y;
+        
         if (sender.room.hitsWall(deltaX, deltaY))
           return;
+
+        for (var i = 0; i < this.rooms.length; i++) {
+          var room = this.rooms[i];
+          if (room.inRoom(deltaX, deltaY)) {
+            this.room = room;
+            break;
+          }
+        }
 
         sender.camera.position.x += pos.x;
         sender.camera.position.z += pos.y;
@@ -59,8 +72,17 @@ class Game {
       case 40: // down
         var deltaX = sender.camera.position.x - pos.x;
         var deltaY = sender.camera.position.z - pos.y;
+        
         if (sender.room.hitsWall(deltaX, deltaY))
           return;
+
+        for (var i = 0; i < this.rooms.length; i++) {
+          var room = this.rooms[i];
+          if (room.inRoom(deltaX, deltaY)) {
+            this.room = room;
+            break;
+          }
+        }
 
         sender.camera.position.x -= pos.x;
         sender.camera.position.z -= pos.y;
