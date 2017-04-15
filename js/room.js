@@ -51,7 +51,7 @@ class Room {
   }
 
   _addDoor(x, z, rotate) {
-    var door = new THREE.Group();
+    var doorFrame = new THREE.Group();
 
     // outer
     var curve = new THREE.EllipseCurve(0, 0 /*ax, ay*/, .75, .75 /* xRadius, yRadius */, 0, Math.PI /* aStartAngle, aEndAngle */, false);
@@ -60,19 +60,40 @@ class Room {
     var geometry = path.createGeometry( points );
     var material = new THREE.LineBasicMaterial( { color : this.WIREFRAME_COLOUR } );
     var outer = new THREE.Line( geometry, material );
-    door.add(outer);
+    doorFrame.add(outer);
 
     var lg1 = new THREE.Geometry();
     lg1.vertices.push(new THREE.Vector3(.75, -1.5, 0), new THREE.Vector3(.75, 0, 0));
     var l1 = new THREE.Line(lg1, material);
-    door.add(l1);
+    doorFrame.add(l1);
 
     var lg2 = new THREE.Geometry();
     lg2.vertices.push(new THREE.Vector3(-.75, -1.5, 0), new THREE.Vector3(-.75, 0, 0));
     var l2 = new THREE.Line(lg2, material);
-    door.add(l2);
+    doorFrame.add(l2);
 
     // inner
+    curve = new THREE.EllipseCurve(0, 0 /*ax, ay*/, .65, .65 /* xRadius, yRadius */, 0, Math.PI /* aStartAngle, aEndAngle */, false);
+    points = curve.getSpacedPoints( 20 );
+    path = new THREE.Path();
+    geometry = path.createGeometry( points );
+    material = new THREE.LineBasicMaterial( { color : this.WIREFRAME_COLOUR } );
+    var inner = new THREE.Line( geometry, material );
+    doorFrame.add(inner);
+
+    lg1 = new THREE.Geometry();
+    lg1.vertices.push(new THREE.Vector3(.65, -1.5, 0), new THREE.Vector3(.65, 0, 0));
+    l1 = new THREE.Line(lg1, material);
+    doorFrame.add(l1);
+
+    lg2 = new THREE.Geometry();
+    lg2.vertices.push(new THREE.Vector3(-.65, -1.5, 0), new THREE.Vector3(-.65, 0, 0));
+    l2 = new THREE.Line(lg2, material);
+    doorFrame.add(l2);
+
+    // door
+    var door = new THREE.Group();
+
     curve = new THREE.EllipseCurve(0, 0 /*ax, ay*/, .65, .65 /* xRadius, yRadius */, 0, Math.PI /* aStartAngle, aEndAngle */, false);
     points = curve.getSpacedPoints( 20 );
     path = new THREE.Path();
@@ -91,13 +112,40 @@ class Room {
     l2 = new THREE.Line(lg2, material);
     door.add(l2);
 
-    if (rotate)
-      door.rotation.y += Math.PI/2;
+    var lg = new THREE.Geometry();
+    lg.vertices.push(new THREE.Vector3(.39, -1.5, 0), new THREE.Vector3(.39, 0.52, 0));
+    var l = new THREE.Line(lg, material);
+    door.add(l);
 
-    door.position.x += x;
+    lg = new THREE.Geometry();
+    lg.vertices.push(new THREE.Vector3(.13, -1.5, 0), new THREE.Vector3(.13, 0.64, 0));
+    l = new THREE.Line(lg, material);
+    door.add(l);
+
+    lg = new THREE.Geometry();
+    lg.vertices.push(new THREE.Vector3(-.13, -1.5, 0), new THREE.Vector3(-.13, 0.64, 0));
+    l = new THREE.Line(lg, material);
+    door.add(l);
+
+    lg = new THREE.Geometry();
+    lg.vertices.push(new THREE.Vector3(-.39, -1.5, 0), new THREE.Vector3(-.39, 0.52, 0));
+    l = new THREE.Line(lg, material);
+    door.add(l);
+
+    // put it all together
+    if (rotate) {
+      doorFrame.rotation.y += Math.PI/2;
+      door.rotation.y += Math.PI/2;
+    }
+
+    doorFrame.position.x += x;
+    doorFrame.position.z += z;
+
+    door.position.x += x + 1.3;
     door.position.z += z;
 
-    this.scene.add(door);
+    this.scene.add(doorFrame);
+    //this.scene.add(door);
     this.doors.push(new THREE.Vector2(x, z));
   }
 

@@ -20,8 +20,10 @@ class Game {
     this.camera.position.z = 0;
 
     var entranceHall = new EntranceHall(this.scene, 0, 0, 10, 10, 3);
-    var diningRoom = new EntranceHall(this.scene, 0, 10, 10, 10, 3);
-    this.rooms = [entranceHall, diningRoom];
+    var diningRoom = new DiningRoom(this.scene, 0, 10, 10, 10, 3);
+    var armoury = new Armoury(this.scene, 10, 0, 10, 10, 3);
+    var library = new Library(this.scene, 10, 10, 10, 10, 3);
+    this.rooms = [entranceHall, diningRoom, armoury, library];
     this.room = entranceHall;
 
     // subscribe to input events
