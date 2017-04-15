@@ -3,7 +3,7 @@ class Room {
     this.WIREFRAME_COLOUR = 0x808080;
 
     var geometry = new THREE.BoxGeometry(width, height, depth);
-    var cube = this._buildShape(geometry, x, y);
+    var cube = this._buildSolidShape(geometry, x, y);
     scene.add(cube);
 
     this.scene = scene;
@@ -109,5 +109,29 @@ class Room {
     shape.position.z = z;
     shape.position.y = y;
     return shape;
-  }       
+  }
+
+  _buildSolidShape(geometry, x, z, y=0) {
+    // mesh
+    var material = new THREE.MeshPhongMaterial({
+      color: 0xff0000,
+      polygonOffset: true,
+      polygonOffsetFactor: 1, // positive value pushes polygon further away
+      polygonOffsetUnits: 1
+    });
+    var mesh = new THREE.Mesh( geometry, material );
+    
+    // wireframe
+    var geo = new THREE.EdgesGeometry(mesh.geometry);
+    var mat = new THREE.LineBasicMaterial( { color: this.WIREFRAME_COLOUR } );
+    var wireframe = new THREE.LineSegments( geo, mat );
+    
+    mesh.add( wireframe );
+    
+    mesh.position.x = x;
+    mesh.position.z = z;
+    mesh.position.y = y;
+    
+    return mesh;
+  } 
 }
