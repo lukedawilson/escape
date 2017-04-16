@@ -321,11 +321,11 @@
 
           var extrudeSettings = {
             steps: 2,
-            amount: 0.01,
+            amount: 0,
             bevelEnabled: true,
             bevelThickness: 0.02,
-            bevelSize: 0.02,
-            bevelSegments: 1
+            bevelSize: 0.05,
+            bevelSegments: 2
           };
           var dpGeometry = new THREE.ExtrudeGeometry( dpShape, extrudeSettings );
 
@@ -365,6 +365,7 @@
 
 
           var points5 = [];
+          points5.push( new THREE.Vector2( 0, 0 ));
           points5.push( new THREE.Vector2( 0.09, 0 ));
           points5.push( new THREE.Vector2( 0.07, -0.35 ));
           points5.push( new THREE.Vector2( 0.085, -0.375 ));
@@ -373,6 +374,7 @@
           points5.push( new THREE.Vector2( 0.07, -0.45 ));
           points5.push( new THREE.Vector2( 0.04, -0.7));
           points5.push( new THREE.Vector2( 0.05, -0.8 ));
+          points5.push( new THREE.Vector2( 0, -0.8 ));
 
           var legGeometry = new THREE.LatheGeometry( points5)
           var leftleg = this._buildSolidShape(legGeometry, x-0.1, z);
