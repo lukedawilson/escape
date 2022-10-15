@@ -55,11 +55,11 @@ class Room {
 
     // outer
     let curve = new THREE.EllipseCurve(0, 0 /*ax, ay*/, .75, .75 /* xRadius, yRadius */, 0, Math.PI /* aStartAngle, aEndAngle */, false)
-    let points = curve.getSpacedPoints( 20 )
+    let points = curve.getSpacedPoints(20)
     let path = new THREE.Path()
-    let geometry = path.createGeometry( points )
-    let material = new THREE.LineBasicMaterial( { color : this.WIREFRAME_COLOUR } )
-    const outer = new THREE.Line( geometry, material )
+    let geometry = path.createGeometry(points)
+    let material = new THREE.LineBasicMaterial({ color : this.WIREFRAME_COLOUR })
+    const outer = new THREE.Line(geometry, material)
     doorFrame.add(outer)
 
     let lg1 = new THREE.Geometry()
@@ -74,10 +74,10 @@ class Room {
 
     // inner
     curve = new THREE.EllipseCurve(0, 0 /*ax, ay*/, .65, .65 /* xRadius, yRadius */, 0, Math.PI /* aStartAngle, aEndAngle */, false)
-    points = curve.getSpacedPoints( 20 )
+    points = curve.getSpacedPoints(20)
     path = new THREE.Path()
-    geometry = path.createGeometry( points )
-    material = new THREE.LineBasicMaterial( { color : this.WIREFRAME_COLOUR } )
+    geometry = path.createGeometry(points)
+    material = new THREE.LineBasicMaterial({ color : this.WIREFRAME_COLOUR })
     doorFrame.add(new THREE.Line(geometry, material))
 
     lg1 = new THREE.Geometry()
@@ -94,10 +94,10 @@ class Room {
     const door = new THREE.Group()
 
     curve = new THREE.EllipseCurve(0, 0 /*ax, ay*/, .65, .65 /* xRadius, yRadius */, 0, Math.PI /* aStartAngle, aEndAngle */, false)
-    points = curve.getSpacedPoints( 20 )
+    points = curve.getSpacedPoints(20)
     path = new THREE.Path()
-    geometry = path.createGeometry( points )
-    material = new THREE.LineBasicMaterial( { color : this.WIREFRAME_COLOUR } )
+    geometry = path.createGeometry(points)
+    material = new THREE.LineBasicMaterial({ color : this.WIREFRAME_COLOUR })
     door.add(new THREE.Line(geometry, material))
 
     lg1 = new THREE.Geometry()
@@ -165,14 +165,14 @@ class Room {
       polygonOffsetFactor: 1, // positive value pushes polygon further away
       polygonOffsetUnits: 1
     })
-    const mesh = new THREE.Mesh( geometry, material )
+    const mesh = new THREE.Mesh(geometry, material)
 
     // wireframe
     const geo = new THREE.EdgesGeometry(mesh.geometry)
-    const mat = new THREE.LineBasicMaterial( { color: this.WIREFRAME_COLOUR } )
-    const wireframe = new THREE.LineSegments( geo, mat )
+    const mat = new THREE.LineBasicMaterial({ color: this.WIREFRAME_COLOUR })
+    const wireframe = new THREE.LineSegments(geo, mat)
 
-    mesh.add( wireframe )
+    mesh.add(wireframe)
 
     mesh.position.x = x
     mesh.position.z = z

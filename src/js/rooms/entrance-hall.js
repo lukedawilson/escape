@@ -52,13 +52,13 @@ class EntranceHall extends Room {
     body.position.y += 0.2
 
     const points = []
-    points.push( new THREE.Vector2( 0.16, 0 ))
-    points.push( new THREE.Vector2( 0.15, 0.03 ))
-    points.push( new THREE.Vector2( 0.1, 0.065 ))
-    points.push( new THREE.Vector2( 0.05, 0.075 ))
-    points.push( new THREE.Vector2( 0, 0.08 ))
+    points.push(new THREE.Vector2(0.16, 0))
+    points.push(new THREE.Vector2(0.15, 0.03))
+    points.push(new THREE.Vector2(0.1, 0.065))
+    points.push(new THREE.Vector2(0.05, 0.075))
+    points.push(new THREE.Vector2(0, 0.08))
 
-    const shoulderGeometry = new THREE.LatheGeometry( points)
+    const shoulderGeometry = new THREE.LatheGeometry(points)
     const leftShoulder = this._buildSolidShape(shoulderGeometry, 0, 0)
     leftShoulder.rotation.z -= 1 * Math.PI / 8
     leftShoulder.rotation.y += 2 * Math.PI / 8
@@ -74,27 +74,27 @@ class EntranceHall extends Room {
     rightShoulder.position.z = z
 
     const points3 = []
-    points3.push( new THREE.Vector2( 0.06, 0.4 ))
-    points3.push( new THREE.Vector2( 0.06, 0.45 ))
-    points3.push( new THREE.Vector2( 0.1, 0.5 ))
-    points3.push( new THREE.Vector2( 0.12, 0.65 ))
-    points3.push( new THREE.Vector2( 0.14, 0.65 ))
-    points3.push( new THREE.Vector2( 0.11, 0.75 ))
-    points3.push( new THREE.Vector2( 0.06, 0.8 ))
+    points3.push(new THREE.Vector2(0.06, 0.4))
+    points3.push(new THREE.Vector2(0.06, 0.45))
+    points3.push(new THREE.Vector2(0.1, 0.5))
+    points3.push(new THREE.Vector2(0.12, 0.65))
+    points3.push(new THREE.Vector2(0.14, 0.65))
+    points3.push(new THREE.Vector2(0.11, 0.75))
+    points3.push(new THREE.Vector2(0.06, 0.8))
 
-    const headGeometry = new THREE.LatheGeometry( points3)
+    const headGeometry = new THREE.LatheGeometry(points3)
     const head = this._buildSolidShape(headGeometry, x, z)
 
     const points2 = []
-    points2.push( new THREE.Vector2( 0.06, 0 ))
-    points2.push( new THREE.Vector2( 0.05, 0.22 ))
-    points2.push( new THREE.Vector2( 0.07, 0.25 ))
-    points2.push( new THREE.Vector2( 0.08, 0.28 ))
-    points2.push( new THREE.Vector2( 0.07, 0.31 ))
-    points2.push( new THREE.Vector2( 0.03, 0.34 ))
-    points2.push( new THREE.Vector2( 0, 0.34 ))
+    points2.push(new THREE.Vector2(0.06, 0))
+    points2.push(new THREE.Vector2(0.05, 0.22))
+    points2.push(new THREE.Vector2(0.07, 0.25))
+    points2.push(new THREE.Vector2(0.08, 0.28))
+    points2.push(new THREE.Vector2(0.07, 0.31))
+    points2.push(new THREE.Vector2(0.03, 0.34))
+    points2.push(new THREE.Vector2(0, 0.34))
 
-    const upperarmGeometry = new THREE.LatheGeometry( points2)
+    const upperarmGeometry = new THREE.LatheGeometry(points2)
     const leftupperarm = this._buildSolidShape(upperarmGeometry, 0, 0)
     const rightupperarm = this._buildSolidShape(upperarmGeometry, 0, 0)
     leftupperarm.rotation.z -= 6 * Math.PI / 8
@@ -110,14 +110,14 @@ class EntranceHall extends Room {
     rightupperarm.position.z = z
 
     const points4 = []
-    points4.push( new THREE.Vector2( 0.05, 0 ))
-    points4.push( new THREE.Vector2( 0.02, 0.18 ))
-    points4.push( new THREE.Vector2( 0.04, 0.20 ))
-    points4.push( new THREE.Vector2( 0.05, 0.22 ))
-    points4.push( new THREE.Vector2( 0.04, 0.24 ))
-    points4.push( new THREE.Vector2( 0, 0.26 ))
+    points4.push(new THREE.Vector2(0.05, 0))
+    points4.push(new THREE.Vector2(0.02, 0.18))
+    points4.push(new THREE.Vector2(0.04, 0.20))
+    points4.push(new THREE.Vector2(0.05, 0.22))
+    points4.push(new THREE.Vector2(0.04, 0.24))
+    points4.push(new THREE.Vector2(0, 0.26))
 
-    const lowerarmGeometry = new THREE.LatheGeometry( points4)
+    const lowerarmGeometry = new THREE.LatheGeometry(points4)
     const leftlowerarm = this._buildSolidShape(lowerarmGeometry, 0, 0)
     const rightlowerarm = this._buildSolidShape(lowerarmGeometry, 0, 0)
     leftlowerarm.rotation.z -= 7 * Math.PI / 8
@@ -151,7 +151,7 @@ class EntranceHall extends Room {
       bevelSize: 0.05,
       bevelSegments: 2
     }
-    const dpGeometry = new THREE.ExtrudeGeometry( dpShape, extrudeSettings )
+    const dpGeometry = new THREE.ExtrudeGeometry(dpShape, extrudeSettings)
 
     const dp = this._buildSolidShape(dpGeometry, 0, 0)
     dp.rotation.x += 1 * Math.PI / 16
@@ -171,7 +171,7 @@ class EntranceHall extends Room {
     spShape.lineTo(-0.12,0)
     spShape.autoClose = true
 
-    const spGeometry = new THREE.ExtrudeGeometry( spShape, extrudeSettings )
+    const spGeometry = new THREE.ExtrudeGeometry(spShape, extrudeSettings)
 
     const axis = new THREE.Vector3(0, 0.71, -0.71)
     const sp = this._buildSolidShape(spGeometry, 0, 0)
@@ -187,18 +187,18 @@ class EntranceHall extends Room {
     sp2.position.z = z
 
     const points5 = []
-    points5.push( new THREE.Vector2( 0, 0 ))
-    points5.push( new THREE.Vector2( 0.09, 0 ))
-    points5.push( new THREE.Vector2( 0.07, -0.35 ))
-    points5.push( new THREE.Vector2( 0.085, -0.375 ))
-    points5.push( new THREE.Vector2( 0.09, -0.4 ))
-    points5.push( new THREE.Vector2( 0.085, -0.425 ))
-    points5.push( new THREE.Vector2( 0.07, -0.45 ))
-    points5.push( new THREE.Vector2( 0.04, -0.7))
-    points5.push( new THREE.Vector2( 0.05, -0.8 ))
-    points5.push( new THREE.Vector2( 0, -0.8 ))
+    points5.push(new THREE.Vector2(0, 0))
+    points5.push(new THREE.Vector2(0.09, 0))
+    points5.push(new THREE.Vector2(0.07, -0.35))
+    points5.push(new THREE.Vector2(0.085, -0.375))
+    points5.push(new THREE.Vector2(0.09, -0.4))
+    points5.push(new THREE.Vector2(0.085, -0.425))
+    points5.push(new THREE.Vector2(0.07, -0.45))
+    points5.push(new THREE.Vector2(0.04, -0.7))
+    points5.push(new THREE.Vector2(0.05, -0.8))
+    points5.push(new THREE.Vector2(0, -0.8))
 
-    const legGeometry = new THREE.LatheGeometry( points5)
+    const legGeometry = new THREE.LatheGeometry(points5)
     const leftleg = this._buildSolidShape(legGeometry, x-0.1, z)
     const rightleg = this._buildSolidShape(legGeometry, x+0.1, z)
 
@@ -233,7 +233,7 @@ class EntranceHall extends Room {
       bevelSize: 0.01,
       bevelSegments: 1
     }
-    const handleGeometry = new THREE.ExtrudeGeometry( handleShape, extrudeSettings2 )
+    const handleGeometry = new THREE.ExtrudeGeometry(handleShape, extrudeSettings2)
 
     const handle = this._buildSolidShape(handleGeometry, 0, 0)
     //dp.rotation.x += 1 * Math.PI / 16
@@ -260,7 +260,7 @@ class EntranceHall extends Room {
       bevelSegments: 1
     }
 
-    const bladeGeometry = new THREE.ExtrudeGeometry( bladeShape, extrudeSettings3 )
+    const bladeGeometry = new THREE.ExtrudeGeometry(bladeShape, extrudeSettings3)
 
     const blade = this._buildSolidShape(bladeGeometry, 0, 0)
     //dp.rotation.x += 1 * Math.PI / 16
@@ -269,24 +269,24 @@ class EntranceHall extends Room {
     blade.position.z = z - 0.36
 
     const group = new THREE.Group()
-    group.add( body )
-    group.add( leftShoulder )
-    group.add( rightShoulder )
-    group.add( head )
-    group.add( leftupperarm )
-    group.add( rightupperarm )
-    group.add( leftlowerarm )
-    group.add( rightlowerarm )
-    group.add( dp )
-    group.add( dp2 )
-    group.add( sp )
-    group.add( sp2 )
-    group.add( leftleg )
-    group.add( rightleg )
-    group.add( leftfoot )
-    group.add( rightfoot )
-    group.add( handle )
-    group.add( blade )
+    group.add(body)
+    group.add(leftShoulder)
+    group.add(rightShoulder)
+    group.add(head)
+    group.add(leftupperarm)
+    group.add(rightupperarm)
+    group.add(leftlowerarm)
+    group.add(rightlowerarm)
+    group.add(dp)
+    group.add(dp2)
+    group.add(sp)
+    group.add(sp2)
+    group.add(leftleg)
+    group.add(rightleg)
+    group.add(leftfoot)
+    group.add(rightfoot)
+    group.add(handle)
+    group.add(blade)
 
     group.position.y -= 0.7
 

@@ -52,13 +52,13 @@ class DiningRoom extends Room {
 
   _addTable(x, z) {
     const points = []
-    points.push( new THREE.Vector2( 0.05, -1.5 ))
-    points.push( new THREE.Vector2( 0.1, -1.4 ))
-    points.push( new THREE.Vector2( 0.1, -1.35 ))
-    points.push( new THREE.Vector2( 0.05, -1.3 ))
-    points.push( new THREE.Vector2( 0.15, -0.7 ))
+    points.push(new THREE.Vector2(0.05, -1.5))
+    points.push(new THREE.Vector2(0.1, -1.4))
+    points.push(new THREE.Vector2(0.1, -1.35))
+    points.push(new THREE.Vector2(0.05, -1.3))
+    points.push(new THREE.Vector2(0.15, -0.7))
 
-    const legGeometry = new THREE.LatheGeometry( points)
+    const legGeometry = new THREE.LatheGeometry(points)
     const leg1 = this._buildSolidShape(legGeometry, 0, 0)
     const leg2 = this._buildSolidShape(legGeometry, 1.2, 0)
     const leg3 = this._buildSolidShape(legGeometry, 1.2, 2.2)
@@ -72,12 +72,12 @@ class DiningRoom extends Room {
     cube2.position.y = -0.625
 
     const group = new THREE.Group()
-    group.add( cube1 )
-    group.add( cube2 )
-    group.add( leg1 )
-    group.add( leg2 )
-    group.add( leg3 )
-    group.add( leg4 )
+    group.add(cube1)
+    group.add(cube2)
+    group.add(leg1)
+    group.add(leg2)
+    group.add(leg3)
+    group.add(leg4)
 
     group.position.x += x
     group.position.z += z
@@ -87,13 +87,13 @@ class DiningRoom extends Room {
 
   _addChair(x, z, rotation=0) {
     const points = []
-    points.push( new THREE.Vector2( 0.025, -1.5 ))
-    points.push( new THREE.Vector2( 0.05, -1.45 ))
-    points.push( new THREE.Vector2( 0.05, -1.425 ))
-    points.push( new THREE.Vector2( 0.025, -1.375 ))
-    points.push( new THREE.Vector2( 0.075, -1.1 ))
+    points.push(new THREE.Vector2(0.025, -1.5))
+    points.push(new THREE.Vector2(0.05, -1.45))
+    points.push(new THREE.Vector2(0.05, -1.425))
+    points.push(new THREE.Vector2(0.025, -1.375))
+    points.push(new THREE.Vector2(0.075, -1.1))
 
-    const legGeometry = new THREE.LatheGeometry( points)
+    const legGeometry = new THREE.LatheGeometry(points)
     const leg1 = this._buildSolidShape(legGeometry, 0, 0)
     const leg2 = this._buildSolidShape(legGeometry, 0.3, 0)
     const leg3 = this._buildSolidShape(legGeometry, 0.3, 0.3)
@@ -118,7 +118,7 @@ class DiningRoom extends Room {
     backShape.autoClose = true
 
     const extrudeSettings = { amount: 0.05, steps: 1, bevelEnabled: false}
-    const backGeometry = new THREE.ExtrudeGeometry( backShape, extrudeSettings )
+    const backGeometry = new THREE.ExtrudeGeometry(backShape, extrudeSettings)
 
     const back = this._buildSolidShape(backGeometry, 0.15, -0.07)
 
@@ -126,13 +126,13 @@ class DiningRoom extends Room {
     back.position.y = -1.05
     cube1.position.y = -1.075
     const group = new THREE.Group()
-    group.add( cube1 )
-    group.add( back )
-    //group.add( cube2 )
-    group.add( leg1 )
-    group.add( leg2 )
-    group.add( leg3 )
-    group.add( leg4 )
+    group.add(cube1)
+    group.add(back)
+    //group.add(cube2)
+    group.add(leg1)
+    group.add(leg2)
+    group.add(leg3)
+    group.add(leg4)
 
     group.rotation.y += rotation
     group.position.x += x

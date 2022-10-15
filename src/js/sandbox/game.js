@@ -24,7 +24,7 @@ class Game {
     this._addKey(x - 1, y + 2)
     this._addGhost(x + 1, y + 2)
 
-    //this.scene.add( key )
+    //this.scene.add(key)
     //this.axis = new THREE.Vector3(1,0, 0)
 
     // subscribe to input events
@@ -85,27 +85,27 @@ class Game {
     body.position.y += 0.2
 
     const points = []
-    points.push( new THREE.Vector2( 0.06, 0.4 ))
-    points.push( new THREE.Vector2( 0.06, 0.45 ))
-    points.push( new THREE.Vector2( 0.1, 0.5 ))
-    points.push( new THREE.Vector2( 0.12, 0.65 ))
-    points.push( new THREE.Vector2( 0.14, 0.65 ))
-    points.push( new THREE.Vector2( 0.11, 0.75 ))
-    points.push( new THREE.Vector2( 0.06, 0.8 ))
+    points.push(new THREE.Vector2(0.06, 0.4))
+    points.push(new THREE.Vector2(0.06, 0.45))
+    points.push(new THREE.Vector2(0.1, 0.5))
+    points.push(new THREE.Vector2(0.12, 0.65))
+    points.push(new THREE.Vector2(0.14, 0.65))
+    points.push(new THREE.Vector2(0.11, 0.75))
+    points.push(new THREE.Vector2(0.06, 0.8))
 
-    const headGeometry = new THREE.LatheGeometry( points)
+    const headGeometry = new THREE.LatheGeometry(points)
     const head = this._buildShape(headGeometry, x, z)
 
     const points2 = []
-    points2.push( new THREE.Vector2( 0.06, 0 ))
-    points2.push( new THREE.Vector2( 0.05, 0.3 ))
-    points2.push( new THREE.Vector2( 0.02, 0.3 ))
-    points2.push( new THREE.Vector2( 0.045, 0.325 ))
-    points2.push( new THREE.Vector2( 0.06, 0.35 ))
-    points2.push( new THREE.Vector2( 0.045, 0.375 ))
-    points2.push( new THREE.Vector2( 0, 0.4 ))
+    points2.push(new THREE.Vector2(0.06, 0))
+    points2.push(new THREE.Vector2(0.05, 0.3))
+    points2.push(new THREE.Vector2(0.02, 0.3))
+    points2.push(new THREE.Vector2(0.045, 0.325))
+    points2.push(new THREE.Vector2(0.06, 0.35))
+    points2.push(new THREE.Vector2(0.045, 0.375))
+    points2.push(new THREE.Vector2(0, 0.4))
 
-    const armGeometry = new THREE.LatheGeometry( points2)
+    const armGeometry = new THREE.LatheGeometry(points2)
     const arm = this._buildShape(armGeometry, 0, 0)
     const arm2 = this._buildShape(armGeometry, 0, 0)
     arm.rotation.z -= 7 * Math.PI / 8
@@ -119,11 +119,11 @@ class Game {
     arm2.position.z = z
 
     const group = new THREE.Group()
-    group.add( body )
-    group.add( ghostBottom )
-    group.add( head )
-    group.add( arm )
-    group.add( arm2 )
+    group.add(body)
+    group.add(ghostBottom)
+    group.add(head)
+    group.add(arm)
+    group.add(arm2)
 
     group.position.y -= 0.25
 
@@ -133,22 +133,22 @@ class Game {
   _addKey(x, z) {
     const ss = 0.4 // shape size
     const trackShape = new THREE.Shape()
-    trackShape.moveTo( 0.1 * ss, 0.075  * ss)
-    trackShape.lineTo( 0.4 * ss, 0.3 * ss )
-    trackShape.lineTo( 0.4 * ss, 0.7 * ss )
-    trackShape.lineTo( 0 * ss, 1 * ss )
-    trackShape.lineTo( -0.4 * ss, 0.7 * ss )
-    trackShape.lineTo( -0.4 * ss, 0.3 * ss )
-    trackShape.lineTo( -0.1 * ss, 0.075 * ss )
-    trackShape.lineTo( -0.1 * ss, -1.5 * ss )
-    trackShape.lineTo( 0.1 * ss, -1.5 * ss )
-    trackShape.lineTo( 0.1 * ss, -1.4 * ss )
-    trackShape.lineTo( 0.4 * ss, -1.4 * ss )
-    trackShape.lineTo( 0.4 * ss, -1 * ss )
-    trackShape.lineTo( 0.1 * ss, -1 * ss )
+    trackShape.moveTo(0.1 * ss, 0.075  * ss)
+    trackShape.lineTo(0.4 * ss, 0.3 * ss)
+    trackShape.lineTo(0.4 * ss, 0.7 * ss)
+    trackShape.lineTo(0 * ss, 1 * ss)
+    trackShape.lineTo(-0.4 * ss, 0.7 * ss)
+    trackShape.lineTo(-0.4 * ss, 0.3 * ss)
+    trackShape.lineTo(-0.1 * ss, 0.075 * ss)
+    trackShape.lineTo(-0.1 * ss, -1.5 * ss)
+    trackShape.lineTo(0.1 * ss, -1.5 * ss)
+    trackShape.lineTo(0.1 * ss, -1.4 * ss)
+    trackShape.lineTo(0.4 * ss, -1.4 * ss)
+    trackShape.lineTo(0.4 * ss, -1 * ss)
+    trackShape.lineTo(0.1 * ss, -1 * ss)
 
     trackShape.autoClose = true
-    //const geometry = new THREE.ShapeBufferGeometry( trackShape )
+    //const geometry = new THREE.ShapeBufferGeometry(trackShape)
     const extrudeSettings = {
       steps: 1,
       amount: 0.1 * ss,
@@ -158,13 +158,13 @@ class Game {
       bevelSegments: 1
     }
 
-    const geometry = new THREE.ExtrudeGeometry( trackShape, extrudeSettings )
+    const geometry = new THREE.ExtrudeGeometry(trackShape, extrudeSettings)
 
-    //const material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } )
-    //const mesh = new THREE.Mesh( geometry, material )
+    //const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 })
+    //const mesh = new THREE.Mesh(geometry, material)
     const object = this._buildSolidShape(geometry, x, z)
-    //this.scene.add( mesh )
-    this.scene.add( object )
+    //this.scene.add(mesh)
+    this.scene.add(object)
     return object
   }
 
@@ -197,14 +197,14 @@ class Game {
       polygonOffsetFactor: 1, // positive value pushes polygon further away
       polygonOffsetUnits: 1
     })
-    const mesh = new THREE.Mesh( geometry, material )
+    const mesh = new THREE.Mesh(geometry, material)
 
     // wireframe
     const geo = new THREE.EdgesGeometry(mesh.geometry)
-    const mat = new THREE.LineBasicMaterial( { color: this.WIREFRAME_COLOUR } )
-    const wireframe = new THREE.LineSegments( geo, mat )
+    const mat = new THREE.LineBasicMaterial({ color: this.WIREFRAME_COLOUR })
+    const wireframe = new THREE.LineSegments(geo, mat)
 
-    mesh.add( wireframe )
+    mesh.add(wireframe)
 
     mesh.position.x = x
     mesh.position.z = z
