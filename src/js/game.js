@@ -60,7 +60,7 @@ class Game {
         if (sender.room.hitsWall(deltaX, deltaY))
           return
 
-        for (const i = 0; i < this.rooms.length; i++) {
+        for (let i = 0; i < this.rooms.length; i++) {
           const room = this.rooms[i]
           if (room.inRoom(deltaX, deltaY)) {
             this.room = room
@@ -79,7 +79,7 @@ class Game {
         if (sender.room.hitsWall(deltaX, deltaY))
           return
 
-        for (const i = 0; i < this.rooms.length; i++) {
+        for (let i = 0; i < this.rooms.length; i++) {
           const room = this.rooms[i]
           if (room.inRoom(deltaX, deltaY)) {
             this.room = room

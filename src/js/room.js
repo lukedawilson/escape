@@ -24,7 +24,7 @@ class Room {
   }
 
   hitsWall(deltaX, deltaY) {
-    for (const i = 0; i < this.doors.length; i++) {
+    for (let i = 0; i < this.doors.length; i++) {
       const v = this.doors[i]
 
       if (deltaY >= v.y - 1 && deltaY <= v.y + 1 && deltaX >= this.x - .65 && deltaX <= this.x + .65)
@@ -54,22 +54,22 @@ class Room {
     const doorFrame = new THREE.Group()
 
     // outer
-    const curve = new THREE.EllipseCurve(0, 0 /*ax, ay*/, .75, .75 /* xRadius, yRadius */, 0, Math.PI /* aStartAngle, aEndAngle */, false)
-    const points = curve.getSpacedPoints( 20 )
-    const path = new THREE.Path()
-    const geometry = path.createGeometry( points )
-    const material = new THREE.LineBasicMaterial( { color : this.WIREFRAME_COLOUR } )
+    let curve = new THREE.EllipseCurve(0, 0 /*ax, ay*/, .75, .75 /* xRadius, yRadius */, 0, Math.PI /* aStartAngle, aEndAngle */, false)
+    let points = curve.getSpacedPoints( 20 )
+    let path = new THREE.Path()
+    let geometry = path.createGeometry( points )
+    let material = new THREE.LineBasicMaterial( { color : this.WIREFRAME_COLOUR } )
     const outer = new THREE.Line( geometry, material )
     doorFrame.add(outer)
 
-    const lg1 = new THREE.Geometry()
+    let lg1 = new THREE.Geometry()
     lg1.vertices.push(new THREE.Vector3(.75, -1.5, 0), new THREE.Vector3(.75, 0, 0))
-    const l1 = new THREE.Line(lg1, material)
+    let l1 = new THREE.Line(lg1, material)
     doorFrame.add(l1)
 
-    const lg2 = new THREE.Geometry()
+    let lg2 = new THREE.Geometry()
     lg2.vertices.push(new THREE.Vector3(-.75, -1.5, 0), new THREE.Vector3(-.75, 0, 0))
-    const l2 = new THREE.Line(lg2, material)
+    let l2 = new THREE.Line(lg2, material)
     doorFrame.add(l2)
 
     // inner
@@ -78,8 +78,7 @@ class Room {
     path = new THREE.Path()
     geometry = path.createGeometry( points )
     material = new THREE.LineBasicMaterial( { color : this.WIREFRAME_COLOUR } )
-    const inner = new THREE.Line( geometry, material )
-    doorFrame.add(inner)
+    doorFrame.add(new THREE.Line(geometry, material))
 
     lg1 = new THREE.Geometry()
     lg1.vertices.push(new THREE.Vector3(.65, -1.5, 0), new THREE.Vector3(.65, 0, 0))
@@ -99,8 +98,7 @@ class Room {
     path = new THREE.Path()
     geometry = path.createGeometry( points )
     material = new THREE.LineBasicMaterial( { color : this.WIREFRAME_COLOUR } )
-    const inner = new THREE.Line( geometry, material )
-    door.add(inner)
+    door.add(new THREE.Line(geometry, material))
 
     lg1 = new THREE.Geometry()
     lg1.vertices.push(new THREE.Vector3(.65, -1.5, 0), new THREE.Vector3(.65, 0, 0))
@@ -112,9 +110,9 @@ class Room {
     l2 = new THREE.Line(lg2, material)
     door.add(l2)
 
-    const lg = new THREE.Geometry()
+    let lg = new THREE.Geometry()
     lg.vertices.push(new THREE.Vector3(.39, -1.5, 0), new THREE.Vector3(.39, 0.52, 0))
-    const l = new THREE.Line(lg, material)
+    let l = new THREE.Line(lg, material)
     door.add(l)
 
     lg = new THREE.Geometry()
