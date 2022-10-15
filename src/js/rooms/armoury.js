@@ -22,7 +22,7 @@ class Armoury extends Room {
   }
 
   _addBricks(xOffset, yOffset, zOffset, rotate) {
-    var bricks = new THREE.Group();
+    const bricks = new THREE.Group();
 
     bricks.add(this._addBrick(0, 0 + yOffset, 0));
     bricks.add(this._addBrick(.6, 0 + yOffset, 0));

@@ -2,8 +2,8 @@ class Room {
   constructor(scene, x, y, width, depth, height) {
     this.WIREFRAME_COLOUR = 0x808080;
 
-    var geometry = new THREE.BoxGeometry(width, height, depth);
-    var cube = this._buildSolidShape(geometry, x, y);
+    const geometry = new THREE.BoxGeometry(width, height, depth);
+    const cube = this._buildSolidShape(geometry, x, y);
     scene.add(cube);
 
     this.scene = scene;
@@ -24,8 +24,8 @@ class Room {
   }
 
   hitsWall(deltaX, deltaY) {
-    for (var i = 0; i < this.doors.length; i++) {
-      var v = this.doors[i];
+    for (const i = 0; i < this.doors.length; i++) {
+      const v = this.doors[i];
 
       if (deltaY >= v.y - 1 && deltaY <= v.y + 1 && deltaX >= this.x - .65 && deltaX <= this.x + .65)
         return false;
@@ -45,31 +45,31 @@ class Room {
   }
 
   _addBrick(x, y, z) {
-    var geometry = new THREE.BoxGeometry(.3, .1, 0);
-    var brick = this._buildShape(geometry, x, z, y);
+    const geometry = new THREE.BoxGeometry(.3, .1, 0);
+    const brick = this._buildShape(geometry, x, z, y);
     return brick;
   }
 
   _addDoor(x, z, rotate) {
-    var doorFrame = new THREE.Group();
+    const doorFrame = new THREE.Group();
 
     // outer
-    var curve = new THREE.EllipseCurve(0, 0 /*ax, ay*/, .75, .75 /* xRadius, yRadius */, 0, Math.PI /* aStartAngle, aEndAngle */, false);
-    var points = curve.getSpacedPoints( 20 );
-    var path = new THREE.Path();
-    var geometry = path.createGeometry( points );
-    var material = new THREE.LineBasicMaterial( { color : this.WIREFRAME_COLOUR } );
-    var outer = new THREE.Line( geometry, material );
+    const curve = new THREE.EllipseCurve(0, 0 /*ax, ay*/, .75, .75 /* xRadius, yRadius */, 0, Math.PI /* aStartAngle, aEndAngle */, false);
+    const points = curve.getSpacedPoints( 20 );
+    const path = new THREE.Path();
+    const geometry = path.createGeometry( points );
+    const material = new THREE.LineBasicMaterial( { color : this.WIREFRAME_COLOUR } );
+    const outer = new THREE.Line( geometry, material );
     doorFrame.add(outer);
 
-    var lg1 = new THREE.Geometry();
+    const lg1 = new THREE.Geometry();
     lg1.vertices.push(new THREE.Vector3(.75, -1.5, 0), new THREE.Vector3(.75, 0, 0));
-    var l1 = new THREE.Line(lg1, material);
+    const l1 = new THREE.Line(lg1, material);
     doorFrame.add(l1);
 
-    var lg2 = new THREE.Geometry();
+    const lg2 = new THREE.Geometry();
     lg2.vertices.push(new THREE.Vector3(-.75, -1.5, 0), new THREE.Vector3(-.75, 0, 0));
-    var l2 = new THREE.Line(lg2, material);
+    const l2 = new THREE.Line(lg2, material);
     doorFrame.add(l2);
 
     // inner
@@ -78,7 +78,7 @@ class Room {
     path = new THREE.Path();
     geometry = path.createGeometry( points );
     material = new THREE.LineBasicMaterial( { color : this.WIREFRAME_COLOUR } );
-    var inner = new THREE.Line( geometry, material );
+    const inner = new THREE.Line( geometry, material );
     doorFrame.add(inner);
 
     lg1 = new THREE.Geometry();
@@ -92,14 +92,14 @@ class Room {
     doorFrame.add(l2);
 
     // door
-    var door = new THREE.Group();
+    const door = new THREE.Group();
 
     curve = new THREE.EllipseCurve(0, 0 /*ax, ay*/, .65, .65 /* xRadius, yRadius */, 0, Math.PI /* aStartAngle, aEndAngle */, false);
     points = curve.getSpacedPoints( 20 );
     path = new THREE.Path();
     geometry = path.createGeometry( points );
     material = new THREE.LineBasicMaterial( { color : this.WIREFRAME_COLOUR } );
-    var inner = new THREE.Line( geometry, material );
+    const inner = new THREE.Line( geometry, material );
     door.add(inner);
 
     lg1 = new THREE.Geometry();
@@ -112,9 +112,9 @@ class Room {
     l2 = new THREE.Line(lg2, material);
     door.add(l2);
 
-    var lg = new THREE.Geometry();
+    const lg = new THREE.Geometry();
     lg.vertices.push(new THREE.Vector3(.39, -1.5, 0), new THREE.Vector3(.39, 0.52, 0));
-    var l = new THREE.Line(lg, material);
+    const l = new THREE.Line(lg, material);
     door.add(l);
 
     lg = new THREE.Geometry();
@@ -150,9 +150,9 @@ class Room {
   }
 
   _buildShape(geometry, x, z, y=0) {
-    var edges = new THREE.EdgesGeometry(geometry);
-    var material = new THREE.LineBasicMaterial({color: this.WIREFRAME_COLOUR});
-    var shape = new THREE.LineSegments(edges, material);
+    const edges = new THREE.EdgesGeometry(geometry);
+    const material = new THREE.LineBasicMaterial({color: this.WIREFRAME_COLOUR});
+    const shape = new THREE.LineSegments(edges, material);
     shape.position.x = x;
     shape.position.z = z;
     shape.position.y = y;
@@ -161,25 +161,25 @@ class Room {
 
   _buildSolidShape(geometry, x, z, y=0) {
     // mesh
-    var material = new THREE.MeshPhongMaterial({
+    const material = new THREE.MeshPhongMaterial({
       color: 0xff0000,
       polygonOffset: true,
       polygonOffsetFactor: 1, // positive value pushes polygon further away
       polygonOffsetUnits: 1
     });
-    var mesh = new THREE.Mesh( geometry, material );
-    
+    const mesh = new THREE.Mesh( geometry, material );
+
     // wireframe
-    var geo = new THREE.EdgesGeometry(mesh.geometry);
-    var mat = new THREE.LineBasicMaterial( { color: this.WIREFRAME_COLOUR } );
-    var wireframe = new THREE.LineSegments( geo, mat );
-    
+    const geo = new THREE.EdgesGeometry(mesh.geometry);
+    const mat = new THREE.LineBasicMaterial( { color: this.WIREFRAME_COLOUR } );
+    const wireframe = new THREE.LineSegments( geo, mat );
+
     mesh.add( wireframe );
-    
+
     mesh.position.x = x;
     mesh.position.z = z;
     mesh.position.y = y;
-    
+
     return mesh;
-  } 
+  }
 }

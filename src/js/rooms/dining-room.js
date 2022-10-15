@@ -27,7 +27,7 @@ class DiningRoom extends Room {
   }
 
   _addBricks(xOffset, yOffset, zOffset, rotate) {
-    var bricks = new THREE.Group();
+    const bricks = new THREE.Group();
 
     bricks.add(this._addBrick(0, 0 + yOffset, 0));
     bricks.add(this._addBrick(.6, 0 + yOffset, 0));
@@ -51,27 +51,27 @@ class DiningRoom extends Room {
   }
 
   _addTable(x, z) {
-    var points = [];
+    const points = [];
     points.push( new THREE.Vector2( 0.05, -1.5 ));
     points.push( new THREE.Vector2( 0.1, -1.4 ));
     points.push( new THREE.Vector2( 0.1, -1.35 ));
     points.push( new THREE.Vector2( 0.05, -1.3 ));
     points.push( new THREE.Vector2( 0.15, -0.7 ));
 
-    var legGeometry = new THREE.LatheGeometry( points)
-    var leg1 = this._buildSolidShape(legGeometry, 0, 0);
-    var leg2 = this._buildSolidShape(legGeometry, 1.2, 0);
-    var leg3 = this._buildSolidShape(legGeometry, 1.2, 2.2);
-    var leg4 = this._buildSolidShape(legGeometry, 0, 2.2);
+    const legGeometry = new THREE.LatheGeometry( points)
+    const leg1 = this._buildSolidShape(legGeometry, 0, 0);
+    const leg2 = this._buildSolidShape(legGeometry, 1.2, 0);
+    const leg3 = this._buildSolidShape(legGeometry, 1.2, 2.2);
+    const leg4 = this._buildSolidShape(legGeometry, 0, 2.2);
 
-    var tableGeometry1 = new THREE.BoxGeometry(1.6, 0.05, 2.6); // width, height, depth
-    var tableGeometry2 = new THREE.BoxGeometry(1.8, 0.05, 2.8); // width, height, depth
-    var cube1 = this._buildSolidShape(tableGeometry1, 0.6, 1.1);
-    var cube2 = this._buildSolidShape(tableGeometry2, 0.6, 1.1);
+    const tableGeometry1 = new THREE.BoxGeometry(1.6, 0.05, 2.6); // width, height, depth
+    const tableGeometry2 = new THREE.BoxGeometry(1.8, 0.05, 2.8); // width, height, depth
+    const cube1 = this._buildSolidShape(tableGeometry1, 0.6, 1.1);
+    const cube2 = this._buildSolidShape(tableGeometry2, 0.6, 1.1);
     cube1.position.y = -0.675;
     cube2.position.y = -0.625;
 
-    var group = new THREE.Group();
+    const group = new THREE.Group();
     group.add( cube1 );
     group.add( cube2 );
     group.add( leg1 );
@@ -86,23 +86,23 @@ class DiningRoom extends Room {
   }
 
   _addChair(x, z, rotation=0) {
-    var points = [];
+    const points = [];
     points.push( new THREE.Vector2( 0.025, -1.5 ));
     points.push( new THREE.Vector2( 0.05, -1.45 ));
     points.push( new THREE.Vector2( 0.05, -1.425 ));
     points.push( new THREE.Vector2( 0.025, -1.375 ));
     points.push( new THREE.Vector2( 0.075, -1.1 ));
 
-    var legGeometry = new THREE.LatheGeometry( points);
-    var leg1 = this._buildSolidShape(legGeometry, 0, 0);
-    var leg2 = this._buildSolidShape(legGeometry, 0.3, 0);
-    var leg3 = this._buildSolidShape(legGeometry, 0.3, 0.3);
-    var leg4 = this._buildSolidShape(legGeometry, 0, 0.3);
+    const legGeometry = new THREE.LatheGeometry( points);
+    const leg1 = this._buildSolidShape(legGeometry, 0, 0);
+    const leg2 = this._buildSolidShape(legGeometry, 0.3, 0);
+    const leg3 = this._buildSolidShape(legGeometry, 0.3, 0.3);
+    const leg4 = this._buildSolidShape(legGeometry, 0, 0.3);
 
-    var chairseatGeometry1 = new THREE.BoxGeometry(0.45, 0.05, 0.45); // width, height, depth
-    var cube1 = this._buildSolidShape(chairseatGeometry1, 0.15, 0.15);
+    const chairseatGeometry1 = new THREE.BoxGeometry(0.45, 0.05, 0.45); // width, height, depth
+    const cube1 = this._buildSolidShape(chairseatGeometry1, 0.15, 0.15);
 
-    var backShape = new THREE.Shape();
+    const backShape = new THREE.Shape();
     backShape.moveTo(0,0);
     backShape.lineTo(0.225,0);
     backShape.lineTo(0.225,0.3);
@@ -117,15 +117,15 @@ class DiningRoom extends Room {
     backShape.lineTo(-0.225,0);
     backShape.autoClose = true;
 
-    var extrudeSettings = { amount: 0.05, steps: 1, bevelEnabled: false};
-    var backGeometry = new THREE.ExtrudeGeometry( backShape, extrudeSettings );
+    const extrudeSettings = { amount: 0.05, steps: 1, bevelEnabled: false};
+    const backGeometry = new THREE.ExtrudeGeometry( backShape, extrudeSettings );
 
-    var back = this._buildSolidShape(backGeometry, 0.15, -0.07);
+    const back = this._buildSolidShape(backGeometry, 0.15, -0.07);
 
 
     back.position.y = -1.05;
     cube1.position.y = -1.075;
-    var group = new THREE.Group();
+    const group = new THREE.Group();
     group.add( cube1 );
     group.add( back );
     //group.add( cube2 );

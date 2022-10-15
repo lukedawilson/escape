@@ -18,8 +18,8 @@ class Game {
     document.body.appendChild(this.renderer.domElement);
 
     // define room
-    var x = this.camera.position.x;
-    var y = this.camera.position.z;
+    const x = this.camera.position.x;
+    const y = this.camera.position.z;
     this._addCube(x, y);
     this._addKey(x - 1, y + 2);
     this._addGhost(x + 1, y + 2)
@@ -28,20 +28,20 @@ class Game {
     //this.axis = new THREE.Vector3(1,0, 0);
 
     // subscribe to input events
-    var self = this;
+    const self = this;
     document.onkeydown = e => self._handleInput(self, e);
   }
 
   _addCube(x, z) {
-    var geometry = new THREE.BoxGeometry(10, 3, 10); // width, height, depth
-    var cube = this._buildSolidShape(geometry, x, z);
+    const geometry = new THREE.BoxGeometry(10, 3, 10); // width, height, depth
+    const cube = this._buildSolidShape(geometry, x, z);
     cube.rotation.y += 2;
     this.scene.add(cube);
     return cube;
   }
 
   _addGhost(x, z) {
-    var geometry = new THREE.Geometry();
+    const geometry = new THREE.Geometry();
     geometry.vertices.push(
       new THREE.Vector3(-0.2, 0, -0.1),
       new THREE.Vector3(-0.2, 0, 0.1),
@@ -78,13 +78,13 @@ class Game {
       new THREE.Face3(10, 11, 12),
       new THREE.Face3(8, 11, 12));
 
-    var ghostBottom = this._buildShape(geometry, x, z);
+    const ghostBottom = this._buildShape(geometry, x, z);
 
-    var bodyGeometry = new THREE.BoxGeometry(0.4, 0.4, 0.2); // width, height, depth
-    var body = this._buildShape(bodyGeometry, x, z);
+    const bodyGeometry = new THREE.BoxGeometry(0.4, 0.4, 0.2); // width, height, depth
+    const body = this._buildShape(bodyGeometry, x, z);
     body.position.y += 0.2
 
-    var points = [];
+    const points = [];
     points.push( new THREE.Vector2( 0.06, 0.4 ));
     points.push( new THREE.Vector2( 0.06, 0.45 ));
     points.push( new THREE.Vector2( 0.1, 0.5 ));
@@ -93,10 +93,10 @@ class Game {
     points.push( new THREE.Vector2( 0.11, 0.75 ));
     points.push( new THREE.Vector2( 0.06, 0.8 ));
 
-    var headGeometry = new THREE.LatheGeometry( points)
-    var head = this._buildShape(headGeometry, x, z);
+    const headGeometry = new THREE.LatheGeometry( points)
+    const head = this._buildShape(headGeometry, x, z);
 
-    var points2 = [];
+    const points2 = [];
     points2.push( new THREE.Vector2( 0.06, 0 ));
     points2.push( new THREE.Vector2( 0.05, 0.3 ));
     points2.push( new THREE.Vector2( 0.02, 0.3 ));
@@ -105,9 +105,9 @@ class Game {
     points2.push( new THREE.Vector2( 0.045, 0.375 ));
     points2.push( new THREE.Vector2( 0, 0.4 ));
 
-    var armGeometry = new THREE.LatheGeometry( points2)
-    var arm = this._buildShape(armGeometry, 0, 0);
-    var arm2 = this._buildShape(armGeometry, 0, 0);
+    const armGeometry = new THREE.LatheGeometry( points2)
+    const arm = this._buildShape(armGeometry, 0, 0);
+    const arm2 = this._buildShape(armGeometry, 0, 0);
     arm.rotation.z -= 7 * Math.PI / 8
     arm.position.x = x + 0.2
     arm.position.y = 0.37
@@ -118,7 +118,7 @@ class Game {
     arm2.position.y = 0.37
     arm2.position.z = z
 
-    var group = new THREE.Group();
+    const group = new THREE.Group();
     group.add( body )
     group.add( ghostBottom )
     group.add( head )
@@ -131,8 +131,8 @@ class Game {
   }
 
   _addKey(x, z) {
-    var ss = 0.4 // shape size
-    var trackShape = new THREE.Shape();
+    const ss = 0.4 // shape size
+    const trackShape = new THREE.Shape();
     trackShape.moveTo( 0.1 * ss, 0.075  * ss);
     trackShape.lineTo( 0.4 * ss, 0.3 * ss );
     trackShape.lineTo( 0.4 * ss, 0.7 * ss );
@@ -148,8 +148,8 @@ class Game {
     trackShape.lineTo( 0.1 * ss, -1 * ss );
 
     trackShape.autoClose = true;
-    //var geometry = new THREE.ShapeBufferGeometry( trackShape );
-    var extrudeSettings = {
+    //const geometry = new THREE.ShapeBufferGeometry( trackShape );
+    const extrudeSettings = {
       steps: 1,
       amount: 0.1 * ss,
       bevelEnabled: false,
@@ -158,11 +158,11 @@ class Game {
       bevelSegments: 1
     };
 
-    var geometry = new THREE.ExtrudeGeometry( trackShape, extrudeSettings );
+    const geometry = new THREE.ExtrudeGeometry( trackShape, extrudeSettings );
 
-    //var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-    //var mesh = new THREE.Mesh( geometry, material ) ;
-    var object = this._buildSolidShape(geometry, x, z);
+    //const material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+    //const mesh = new THREE.Mesh( geometry, material ) ;
+    const object = this._buildSolidShape(geometry, x, z);
     //this.scene.add( mesh );
     this.scene.add( object );
     return object
@@ -181,9 +181,9 @@ class Game {
   }
 
   _buildShape(geometry, x, z) {
-    var edges = new THREE.EdgesGeometry(geometry);
-    var material = new THREE.LineBasicMaterial({color: this.LIGHT_GREEN});
-    var shape = new THREE.LineSegments(edges, material);
+    const edges = new THREE.EdgesGeometry(geometry);
+    const material = new THREE.LineBasicMaterial({color: this.LIGHT_GREEN});
+    const shape = new THREE.LineSegments(edges, material);
     shape.position.x = x;
     shape.position.z = z;
     return shape;
@@ -191,18 +191,18 @@ class Game {
 
   _buildSolidShape(geometry, x, z, y=0) {
     // mesh
-    var material = new THREE.MeshPhongMaterial({
+    const material = new THREE.MeshPhongMaterial({
       color: 0xff0000,
       polygonOffset: true,
       polygonOffsetFactor: 1, // positive value pushes polygon further away
       polygonOffsetUnits: 1
     });
-    var mesh = new THREE.Mesh( geometry, material );
+    const mesh = new THREE.Mesh( geometry, material );
 
     // wireframe
-    var geo = new THREE.EdgesGeometry(mesh.geometry);
-    var mat = new THREE.LineBasicMaterial( { color: this.WIREFRAME_COLOUR } );
-    var wireframe = new THREE.LineSegments( geo, mat );
+    const geo = new THREE.EdgesGeometry(mesh.geometry);
+    const mat = new THREE.LineBasicMaterial( { color: this.WIREFRAME_COLOUR } );
+    const wireframe = new THREE.LineSegments( geo, mat );
 
     mesh.add( wireframe );
 
@@ -214,15 +214,15 @@ class Game {
   }
 
   _getPosVector(d, theta) {
-    var hyp = d;
-    var opp = hyp * Math.sin(theta);
-    var adj = hyp * Math.cos(theta);
+    const hyp = d;
+    const opp = hyp * Math.sin(theta);
+    const adj = hyp * Math.cos(theta);
     return new THREE.Vector2(opp, adj);
   }
 
   _handleInput(sender, e) {
-    var theta = sender.camera.rotation.y - Math.PI;
-    var pos = sender._getPosVector(.1, theta);
+    const theta = sender.camera.rotation.y - Math.PI;
+    const pos = sender._getPosVector(.1, theta);
 
     switch(e.keyCode) {
       case 38: // up
