@@ -20,13 +20,9 @@ class Game {
     // define room
     var x = this.camera.position.x;
     var y = this.camera.position.z;
-    this.addCube(x, y);
-    this.addKey(x, y);
-    this.addTable(x, y)
-    this.addChair(x, y)
-    this.addGhost(x, y)
-
-    var armour = this.addArmour(x, y)
+    this._addCube(x, y);
+    this._addKey(x - 1, y + 2);
+    this._addGhost(x + 1, y + 2)
 
     //this.scene.add( key );
     //this.axis = new THREE.Vector3(1,0, 0);
@@ -36,7 +32,7 @@ class Game {
     document.onkeydown = e => self._handleInput(self, e);
   }
 
-  addCube(x, z) {
+  _addCube(x, z) {
     var geometry = new THREE.BoxGeometry(10, 3, 10); // width, height, depth
     var cube = this._buildSolidShape(geometry, x, z);
     cube.rotation.y += 2;
@@ -44,29 +40,7 @@ class Game {
     return cube;
   }
 
-  addPyramid(x, z) {
-    var geometry = new THREE.Geometry();
-    geometry.vertices.push(
-      new THREE.Vector3(0, 0, 0),
-      new THREE.Vector3(0, 0, 1),
-      new THREE.Vector3(1, 0, 1),
-      new THREE.Vector3(1, 0, 0),
-      new THREE.Vector3(0.5, 1, 0.5));
-    geometry.faces.push(
-      new THREE.Face3(0, 2, 1),
-      new THREE.Face3(0, 3, 2),
-      new THREE.Face3(1, 4, 0),
-      new THREE.Face3(2, 4, 1),
-      new THREE.Face3(3, 4, 2),
-      new THREE.Face3(0, 4, 3));
-
-    var pyramid = this._buildSolidShape(geometry, x, z);
-    pyramid.position.y = -0.5;
-    this.scene.add(pyramid);
-    return pyramid;
-  }
-
-  addGhost(x, z) {
+  _addGhost(x, z) {
     var geometry = new THREE.Geometry();
     geometry.vertices.push(
       new THREE.Vector3(-0.2, 0, -0.1),
@@ -156,7 +130,7 @@ class Game {
     this.scene.add(group);
   }
 
-  addKey(x, z) {
+  _addKey(x, z) {
     var ss = 0.4 // shape size
     var trackShape = new THREE.Shape();
     trackShape.moveTo( 0.1 * ss, 0.075  * ss);
